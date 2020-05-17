@@ -1,30 +1,41 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-function CreateArea(props) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const CreateArea = ({ add }) => {
   const [note, setNote] = useState({
-    title: "",
-    content: ""
+    title: '',
+    content: '',
   });
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    name === "title" ? setTitle(value) : setContent(value);
 
-    setNote(prevNote => {
-      return { ...prevNote, [name]: value };
-    });
-  }
+    if (name === 'title') {
+      setNote((prevNote) => {
+        return {
+          ...prevNote,
+          title: value,
+        };
+      });
+    }
 
-  function handleClick(e) {
-    props.add(note);
+    if (name === 'content') {
+      setNote((prevNote) => {
+        return {
+          ...prevNote,
+          content: value,
+        };
+      });
+    }
+  };
+
+  const handleClick = (e) => {
+    add(note);
     setNote({
-      title: "",
-      content: ""
+      title: '',
+      content: '',
     });
     e.preventDefault();
-  }
+  };
 
   return (
     <div>
@@ -32,20 +43,20 @@ function CreateArea(props) {
         <input
           name="title"
           placeholder="Title"
+          value={note.title}
           onChange={handleChange}
-          value={title}
         />
         <textarea
           name="content"
           placeholder="Take a note..."
           rows="3"
-          value={content}
+          value={note.content}
           onChange={handleChange}
         />
         <button onClick={handleClick}>Add</button>
       </form>
     </div>
   );
-}
+};
 
 export default CreateArea;
